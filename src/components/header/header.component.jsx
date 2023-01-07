@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/icons8-sigma-64.png";
 
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase/firebase.utils";
+import { signOutUser } from "../../firebase/firebase.utils";
 
 import "./header.styles.scss";
 import { connect } from "react-redux";
@@ -27,11 +26,11 @@ const Header = ({ currentUser, hidden }) => {
           CONTACT
         </Link>
         {currentUser ? (
-          <div className="option" onClick={() => signOut(auth)}>
+          <div className="option" onClick={() => signOutUser()}>
             SIGN OUT
           </div>
         ) : (
-          <Link className="option" to="/signin">
+          <Link className="option" to="/auth">
             SIGN IN
           </Link>
         )}

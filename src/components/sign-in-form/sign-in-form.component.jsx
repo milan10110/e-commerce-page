@@ -1,12 +1,14 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { Component } from "react";
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import {
+  signInAuthUserWithEmailAndPassword,
+  signInWithGoogle,
+} from "../../firebase/firebase.utils";
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 
-import "./sign-in.styles.scss";
+import "./sign-in-form.styles.scss";
 
-class SignIn extends Component {
+class SignInForm extends Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +24,7 @@ class SignIn extends Component {
     const { email, password } = this.state;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInAuthUserWithEmailAndPassword(email, password);
       this.setState({ email: "", password: "" });
     } catch (error) {
       alert("Please check email and password again");
@@ -61,7 +63,11 @@ class SignIn extends Component {
           />
           <div className="buttons">
             <CustomButton type="submit">Sign in</CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignin>
+            <CustomButton
+              type="button"
+              onClick={signInWithGoogle}
+              buttonType="google"
+            >
               Sign in with Google
             </CustomButton>
           </div>
@@ -71,4 +77,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default SignInForm;

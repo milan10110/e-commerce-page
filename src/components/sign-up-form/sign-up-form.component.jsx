@@ -1,12 +1,14 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { Component } from "react";
-import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+import {
+  createUserProfileDocument,
+  createAuthUserWithEmailAndPassword,
+} from "../../firebase/firebase.utils";
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 
-import "./sign-up.styles.scss";
+import "./sign-up-form.styles.scss";
 
-class SignUp extends Component {
+class SignUpForm extends Component {
   constructor() {
     super();
 
@@ -29,8 +31,7 @@ class SignUp extends Component {
     }
 
     try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
+      const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
@@ -46,7 +47,11 @@ class SignUp extends Component {
         confirmPassword: "",
       });
     } catch (error) {
-      console.log(error);
+      if (error.code === "auth/email-already-in-use") {
+        alert("cannot create user, this email already in use");
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -102,4 +107,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default SignUpForm;
